@@ -1,0 +1,17 @@
+@import '../css/reset.css';<% if(includeSprites) { %>
+@import '_sprite';<% } %>
+<% if(isWap) { %>body .g-footer .gft {
+  &-links,
+  &-links a {
+    color:#000;
+  }
+
+  &-copyRight,
+  &-copyRight a {
+    color:#000;
+  }
+}
+<% } else { %>.g-doc {
+  width:7.5rem;
+  margin:0px auto;
+}<% } %>

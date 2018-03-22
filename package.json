@@ -1,0 +1,20 @@
+{
+  "name": "generator-pczt",
+  "version": "0.1.0",
+  "description": "",
+  "files": [
+    "app"
+  ],
+  "author": "chenwudong <vdorchan@gmail.com>",
+  "keywords": [
+    "yeoman-generator"
+  ],
+  "dependencies": {
+    "chalk": "^2.3.2",
+    "command-exists": "^1.2.2",
+    "yeoman-generator": "^2.0.3"
+  },
+  "devDependencies": {
+    "yosay": "^2.0.1"
+  }
+}
