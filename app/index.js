@@ -355,7 +355,7 @@ module.exports = class extends Generator {
     if (this.opts.init) {
       this.log(chalk.green('专题目录初始化完毕'))
       if (!this.needNpmInstall) {
-        this.log(chalk.green('使用 `npm install` 或 `cnpm install` 安装依赖))
+        this.log(chalk.green('使用 `npm install` 或 `cnpm install` 安装依赖'))
       }
       this.log(chalk.green('在 zt 文件夹下新建专题，使用 `yo zt` 配置工作流'))
       return false
