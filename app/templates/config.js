@@ -10,9 +10,9 @@ module.exports = {
   // 上传配置
   www1: {
     cwd: 'zip',
-    username: 'chenwudong',
-    password: 'Ww000123',
-    targetPath: 'test/gz20180322/testgulp',
+    username: '',
+    password: '',
+    targetPath: '',
     site: '<%= website %>'
   },
 
