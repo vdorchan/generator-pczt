@@ -14,6 +14,7 @@
     "browser-sync": "^2.18.8",
     "del": "^2.2.2",
     "gulp": "github:gulpjs/gulp#4.0",
+    "babel-core": "^6.26.0",
     "gulp-babel": "^7.0.0",
     "gulp-base64": "^0.1.3",
     "gulp-cache": "0.4.6",
@@ -30,10 +31,12 @@
     "gulp-sass": "^3.2.0",
     "gulp-sourcemaps": "^2.6.4",
     "gulp-uglify": "^3.0.0",
+    "gulp-www1": "^0.1.2",
     "gulp-zip": "^4.0.0",
     "gulp.spritesmith": "^6.5.0",
     "postcss-px2rem": "^0.3.0",
     "postcss-sprite": "^2.2.1",
+    "prompt": "^1.0.0",
     "pump": "^1.0.2"
   }
 }

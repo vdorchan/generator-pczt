@@ -28,7 +28,7 @@
     "gulp-plumber": "^1.1.0",
     "gulp-pngquant": "^1.0.10",
     "gulp-postcss": "^7.0.1",<% if(includeSass) { %> 
-    "gulp-sass": "^3.1.0"<% } %>,
+    "gulp-sass": "^3.1.0",<% } %>
     "gulp-sourcemaps": "^2.6.4",<% if(includeCompressJS) { %> 
     "gulp-uglify": "^3.0.0"<% } %>,
     "gulp-www1": "^0.1.2",
@@ -36,6 +36,7 @@
     "gulp.spritesmith": "^6.5.0",<% } if(includeRem) { %>
     "postcss-px2rem": "^0.3.0",<% } %>
     "postcss-sprite": "^2.2.1",
+    "prompt": "^1.0.0",
     "pump": "^1.0.2",
     "gulp-load-plugins": "^1.5.0"
   }

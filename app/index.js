@@ -15,8 +15,6 @@ module.exports = class extends Generator {
 
     this.opts = opts
 
-    console.log('appname::::',this.appname)
-
     this.appname = path.basename(this.destinationRoot())
   }
 
@@ -366,7 +364,7 @@ module.exports = class extends Generator {
       执行 ${chalk.magenta('gulp serve:dist')}  预览生产文件
       执行 ${chalk.magenta('gulp build:zip')}  进行生产任务,并打包
       执行 ${chalk.magenta('gulp zip')}  将生产任务产生的文件进行打包      
-      执行 ${chalk.magenta('gulp www1')}  将压缩包上传   
+      执行 ${chalk.magenta('gulp www1')}  上传压缩包   
     `)
     this.log('工作流初始化完毕\n'+gulpMsg)
   }

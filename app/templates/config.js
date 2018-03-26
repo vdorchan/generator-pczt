@@ -1,18 +1,18 @@
 module.exports = {
   // 资源路径
   paths: {
-    src: 'src',
-    dist: 'dist',
-    tmp: '.tmp',
-    zip: 'zip'
+    src: 'src', // 工作目录
+    dist: 'dist', // 生产目录
+    tmp: '.tmp', // 临时目录
+    zip: 'zip' // 压缩包放置目录
   },
 
   // 上传配置
   www1: {
-    cwd: 'zip',
-    username: 'chenwudong',
-    password: 'Ww000123',
-    targetPath: 'test/gz20180322/testgulp',
+    cwd: 'zip', // 上传文件的当前目录
+    username: '',
+    password: '',
+    targetPath: '', // 命名格式： zt/gz20180101/bmw/
     site: '<%= website %>'
   },
 
