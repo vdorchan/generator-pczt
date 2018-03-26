@@ -368,11 +368,7 @@ module.exports = class extends Generator {
       执行 ${chalk.magenta('gulp zip')}  将生产任务产生的文件进行打包      
       执行 ${chalk.magenta('gulp www1')}  将压缩包上传   
     `)
-    if (this.needNpmInstall) {
-        this.log('工作流初始化完毕\n'+gulpMsg)
-    } else {
-      this.log(chalk.green('工作流初始化完毕, 请使用 `npm install` 或 `cnpm install` 安装依赖\n' + gulpMsg))
-    }
+    this.log('工作流初始化完毕\n'+gulpMsg)
   }
 
 
