@@ -38,6 +38,7 @@
     "postcss-sprite": "^2.2.1",
     "prompt": "^1.0.0",
     "pump": "^1.0.2",
-    "gulp-load-plugins": "^1.5.0"
+    "gulp-load-plugins": "^1.5.0",
+    "gulp-replace": "^0.6.1"
   }
 }

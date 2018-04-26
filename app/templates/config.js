@@ -4,7 +4,8 @@ module.exports = {
     src: 'src', // 工作目录
     dist: 'dist', // 生产目录
     tmp: '.tmp', // 临时目录
-    zip: 'zip' // 压缩包放置目录
+    zip: 'zip', // 压缩包放置目录
+    svn: '' // svn 路径,将会注释在 html 文件中 如: http://svn2.demo.pc.com.cn/svn/xxx
   },
 
   // 上传配置

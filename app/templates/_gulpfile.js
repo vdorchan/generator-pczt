@@ -79,6 +79,7 @@ gulp.task(function html() {
       .pipe($.if('*.html', $.fontSpider({
         backup: false
       })))<% } %>
+      .pipe($.if('*.html', $.replace(/(<html[^>]*>)/, `$1\n<!-- path: ${conf.paths.svn} -->`)))
       .pipe(browserSync.reload({ stream: true }))
   )
 })
