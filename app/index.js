@@ -25,12 +25,22 @@ module.exports = class extends Generator {
   prompting() {
     if (this.opts.init) {
       return this.prompt([{
+        type: 'input',
+        name: 'username',
+        message: '请输入账号'
+      },{
+        type: 'password',
+        name: 'password',
+        message: '请输入密码'
+      },{
         type: 'confirm',
         name: 'needNpmInstall',
         message: '你现在正在初始化专题目录,是否需要自动安装依赖？(可以跳过之后使用 cnpm 安装)',
         default: true
-      }]).then(answers => {
-        this.needNpmInstall = answers.needNpmInstall
+      }]).then(answers => {  
+        Object.assign(this, answers)
+
+
       })
       return false
     }
@@ -61,6 +71,11 @@ module.exports = class extends Generator {
         {name: '亲子网', value: 'pcbaby-太平洋亲子'},
         {name: '家居网', value: 'pchouse-太平洋家居'}
       ]
+    }, {
+      type: 'input',
+      name: 'svnPath',
+      message: 'svn 路径？',
+      default: 'http://svn2.demo.pc.com.cn/svn/xx'
     }, {
       type: 'input',
       name: 'brand',
@@ -173,8 +188,6 @@ module.exports = class extends Generator {
       delete answers.features
 
       Object.assign(this, answers)
-
-      console.log('answers:', answers);
       
       this.websiteName = this.website.split('-')[1]
       this.website = this.website.split('-')[0]
@@ -189,6 +202,8 @@ module.exports = class extends Generator {
       this._writingGulpfile()
       this._writingConfig()
       this.includeBabel && this._writingBabelrc()
+    } else {
+      this._writingUerConfig()
     }
     this._writingMisc()
     this._writingPackageJSON()
@@ -292,7 +307,8 @@ module.exports = class extends Generator {
         isVd: this.isVd,
         includeHeader: this.includeHeader,
         includeFooter: this.includeFooter,
-        isCms: this.isCms
+        isCms: this.isCms,
+        svnPath: this.svnPath
       }
     )
   }
@@ -306,7 +322,20 @@ module.exports = class extends Generator {
         isWap: this.isWap,
         includeSprites: this.includeSprites,
         includeSass: this.includeSass,
-        website: this.website
+        website: this.website,
+        includeBase64: this.includeBase64
+      }
+    )
+
+  }
+
+  _writingUerConfig() {
+    this.fs.copyTpl(
+      this.templatePath('PCUSERCONF'),
+      this.destinationPath('PCUSERCONF'),
+      {
+        username: this.username,
+        password: this.password
       }
     )
   }
@@ -355,7 +384,7 @@ module.exports = class extends Generator {
       if (!this.needNpmInstall) {
         this.log(chalk.green('使用 `npm install` 或 `cnpm install` 安装依赖'))
       }
-      this.log(chalk.green('在 zt 文件夹下新建专题，使用 `yo zt` 配置工作流'))
+      this.log(chalk.green('在 zt 文件夹下新建专题，使用 `yo pczt` 配置工作流'))
       return false
     }
     const gulpMsg = chalk.green(`

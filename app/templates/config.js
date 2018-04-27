@@ -5,20 +5,17 @@ module.exports = {
     dist: 'dist', // 生产目录
     tmp: '.tmp', // 临时目录
     zip: 'zip', // 压缩包放置目录
-    svn: '' // svn 路径,将会注释在 html 文件中 如: http://svn2.demo.pc.com.cn/svn/xxx
   },
 
   // 上传配置
   www1: {
     cwd: 'zip', // 上传文件的当前目录
-    username: '',
-    password: '',
     targetPath: '', // 命名格式： zt/gz20180101/bmw/
     site: '<%= website %>'
   },
 
   // 压缩包名
-  zipname: ('<%= appname %>' || 'dist') + '.zip',
+  zipname: '<% if(appname){ %><%= appname %><% }else{ %><%= dist %><% } %>.zip',
 
   // rem转换比例
   remUnit: 100,
@@ -42,11 +39,11 @@ module.exports = {
     imgName: 'sprite.png',
     cssName: '<% if(includeSass) { %>_sprite.scss<% } else { %>sprite.css<% } %>',
     cssTemplate: '<% if(includeSass) { %>handlebarsStr.scss.handlebars<% } else { %>handlebarsStr.css.handlebars<% } %>'
-  }<% } %><% if(includeSprites) { %>,
+  }<% } %><% if(includeBase64) { %>,
     
   // base64转换配置
   base64Opts: {
-    baseDir: conf.paths.src + '/images/',
+    baseDir: 'src/images/',
     extensions: ['png'],
     maxImageSize: 20 * 1024
   }<% } %>

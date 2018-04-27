@@ -79,7 +79,6 @@ gulp.task(function html() {
       .pipe($.if('*.html', $.fontSpider({
         backup: false
       })))<% } %>
-      .pipe($.if('*.html', $.replace(/(<html[^>]*>)/, `$1\n<!-- path: ${conf.paths.svn} -->`)))
       .pipe(browserSync.reload({ stream: true }))
   )
 })
@@ -96,7 +95,7 @@ gulp.task(function watch(cb) {
   gulp.watch(conf.paths.src + '/@(sass|css)/**/*', gulp.series('styles'))
   <% if(includeBabel) { %>gulp.watch(conf.paths.src + '/js/**/*', gulp.series('scripts')) <% } %>
   gulp.watch([conf.paths.src + '/**/*.html', conf.paths.src + '/images/**/*', conf.paths.src + '/fonts/**/*']).on('change', browserSync.reload)
-  <% if(includeSprites) { %>gulp.watch(conf.paths.src + '/images/sprite/**/*.png', gulp.series('sprites')) ) <% } %>
+  <% if(includeSprites) { %>gulp.watch(conf.paths.src + '/images/sprite/**/*.png', gulp.series('sprites')) <% } %>
   
   cb()
 })
@@ -162,24 +161,6 @@ gulp.task('build:zip', gulp.series('build', 'zip'))
 gulp.task('default', gulp.series('build'))
 
 gulp.task(function www1(done) {
-  prompt.start()
-
-  return prompt.get({
-    name: 'isUpload',
-    description: `${conf.www1.username}, 你将上传 \n ${conf.zipname} 到 www1.${conf.www1.site}.com.cn/${conf.www1.targetPath.replace(/([^\/]$)/, '$1/')} \n 输入 y 确认操作，否则输入n `,
-    type: 'string', 
-    pattern: /^[y,n]$/,
-    message: '请输入y或n',
-    required: true,
-    before: function(value) { return value === 'y'; }
-  }, (err, res) => {
-    if (res.isUpload) {
-      console.log('开始上传');
-      gulp.src(conf.paths.zip + '/' + conf.zipname)
-      .pipe($.www1(conf.www1))
-    } else {
-      console.log('已取消上传操作！')
-    }
-    done()
-  })
+  return gulp.src(`${conf.paths.zip}/${conf.zipname}`)
+    .pipe($.www1(conf.www1))
 })
