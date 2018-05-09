@@ -30,7 +30,7 @@
     "gulp-postcss": "^7.0.1",<% if(includeSass) { %> 
     "gulp-sass": "^3.1.0",<% } %>
     "gulp-sourcemaps": "^2.6.4",<% if(includeCompressJS) { %> 
-    "gulp-uglify": "^3.0.0"<% } %>,
+    "gulp-uglify": "^3.0.0",<% } %>
     "gulp-www1": "^0.1.2",
     "gulp-www1": "^0.1.4",
     "gulp-zip": "^4.0.0",<% if(includeSprites) { %>

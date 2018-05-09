@@ -75,7 +75,7 @@ module.exports = class extends Generator {
       type: 'input',
       name: 'svnPath',
       message: 'svn 路径？',
-      default: 'http://svn2.demo.pc.com.cn/svn/xx'
+      default: ''
     }, {
       type: 'input',
       name: 'brand',

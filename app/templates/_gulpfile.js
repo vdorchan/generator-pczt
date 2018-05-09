@@ -28,8 +28,8 @@ gulp.task(function scripts() {
     .pipe($.cached('cacheScripts'))
     .pipe($.sourcemaps.init())
     .pipe($.babel())
-    .pipe($.sourcemaps.write('../maps'))<% } %>
-    .pipe(gulp.dest(conf.paths.tmp + '/js'))
+    .pipe($.sourcemaps.write('../maps'))
+    .pipe(gulp.dest(conf.paths.tmp + '/js'))<% } %>
     .pipe(browserSync.stream())
 })
 
@@ -93,7 +93,7 @@ gulp.task(function sprites() {
 
 gulp.task(function watch(cb) {
   gulp.watch(conf.paths.src + '/@(sass|css)/**/*', gulp.series('styles'))
-  <% if(includeBabel) { %>gulp.watch(conf.paths.src + '/js/**/*', gulp.series('scripts')) <% } %>
+  gulp.watch(conf.paths.src + '/js/**/*', gulp.series('scripts'))
   gulp.watch([conf.paths.src + '/**/*.html', conf.paths.src + '/images/**/*', conf.paths.src + '/fonts/**/*']).on('change', browserSync.reload)
   <% if(includeSprites) { %>gulp.watch(conf.paths.src + '/images/sprite/**/*.png', gulp.series('sprites')) <% } %>
   
