@@ -33,9 +33,14 @@ module.exports = class extends Generator {
         name: 'password',
         message: '请输入密码'
       },{
+        type: 'city',
+        name: 'city',
+        message: '所在城市（拼音首字母简写）',
+        default: 'gz'
+      },{
         type: 'confirm',
         name: 'needNpmInstall',
-        message: '你现在正在初始化专题目录,是否需要自动安装依赖？(可以跳过之后使用 cnpm 安装)',
+        message: '你现在正在初始化专题目录,是否需要现在马上使用npm安装依赖？(可以跳过之后使用 cnpm 安装)',
         default: true
       }]).then(answers => {  
         Object.assign(this, answers)
@@ -44,6 +49,27 @@ module.exports = class extends Generator {
       })
       return false
     }
+
+    const confName = 'PCUSERCONF'
+    let dir = process.cwd(), user = {}
+
+    while (dir) {
+      const files = fs.readdirSync(dir)
+      
+      files.forEach(file => {
+        if (file === confName) {
+          let confArr = fs.readFileSync(`${dir}/${confName}`).toString().split('\n')
+
+          confArr.forEach(i => {
+            i.indexOf('username') !== -1 && ( user.username = i.replace(/username:(.+)/, '$1').trim() )
+            i.indexOf('password') !== -1 && ( user.password = i.replace(/password:(.+)/, '$1').trim() )
+            i.indexOf('city') !== -1 && ( user.city = i.replace(/city:(.+)/, '$1').trim() )
+          })
+        }
+      })
+      dir = dir.replace(/\/[^\/]*$/,'')
+    }
+
     // 欢迎消息    
     this.log(yosay('一个专题脚手架生成器\n 更多的选项配置在 `.config.js`'))
 
@@ -89,12 +115,12 @@ module.exports = class extends Generator {
     }, {
       type: 'input',
       name: 'pageAuthor',
-      message: '你的名字和地区？(zhangshuaige_gz)',
-      default: 'none'
+      message: '你的名字和地区(zhangshuaige_gz)？',
+      default: user.username && user.city ? `${user.username}_${user.city}` : 'none'
     }, {
       type: 'input',
       name: 'pageDesigner',
-      message: '设计师的名字和地区？(liumenv_gz)',
+      message: '设计师的名字和地区(liumenv_gz)？',
       default: 'none'
     }, {
       type: 'checkbox',
