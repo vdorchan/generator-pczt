@@ -116,7 +116,7 @@ module.exports = class extends Generator {
       type: 'input',
       name: 'pageAuthor',
       message: '你的名字和地区(zhangshuaige_gz)？',
-      default: user.username && user.city ? `${user.username}_${user.city}` : 'none'
+      default: user.username && user.city ? `${user.username.replace(/\d/g, '')}_${user.city}` : 'none'
     }, {
       type: 'input',
       name: 'pageDesigner',
