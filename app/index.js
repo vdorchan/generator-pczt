@@ -361,7 +361,8 @@ module.exports = class extends Generator {
       this.destinationPath('PCUSERCONF'),
       {
         username: this.username,
-        password: this.password
+        password: this.password,
+        city: this.city,
       }
     )
   }
