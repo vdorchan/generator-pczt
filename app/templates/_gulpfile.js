@@ -28,8 +28,8 @@ gulp.task(function scripts() {
     .pipe($.cached('cacheScripts'))
     .pipe($.sourcemaps.init())
     .pipe($.babel())
-    .pipe($.sourcemaps.write('../maps'))
-    .pipe(gulp.dest(conf.paths.tmp + '/js'))<% } %>
+    .pipe($.sourcemaps.write('../maps'))<% } %>
+    .pipe(gulp.dest(conf.paths.tmp + '/js'))
     .pipe(browserSync.stream())
 })
 
