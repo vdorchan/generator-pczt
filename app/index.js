@@ -51,7 +51,8 @@ module.exports = class extends Generator {
     }
 
     const confName = 'PCUSERCONF'
-    let dir = process.cwd(), user = {}
+    let dir = process.cwd(), 
+      user = {}
 
     while (dir) {
       const files = fs.readdirSync(dir)
@@ -67,7 +68,11 @@ module.exports = class extends Generator {
           })
         }
       })
-      dir = dir.replace(/\/[^\/]*$/,'')
+      // dir = dir.replace(/\/[^\/]*$/,'')
+      dir = dir.replace(path.sep + path.basename(dir), '')
+      if (dir.indexOf(path.sep) === -1) {
+        dir = null
+      }
     }
 
     // 欢迎消息    
@@ -411,7 +416,7 @@ module.exports = class extends Generator {
       if (!this.needNpmInstall) {
         this.log(chalk.green('使用 `npm install` 或 `cnpm install` 安装依赖'))
       }
-      this.log(chalk.green('在 zt 文件夹下新建专题，使用 `yo pczt` 配置工作流'))
+      this.log(chalk.green('进入 zt 文件夹，并在 zt 文件夹下新建专题，在专题目录下使用 `yo pczt` 配置工作流'))
       return false
     }
     const gulpMsg = chalk.green(`

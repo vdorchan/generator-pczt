@@ -31,7 +31,7 @@
     "gulp-sass": "^3.1.0",<% } %>
     "gulp-sourcemaps": "^2.6.4",<% if(includeCompressJS) { %> 
     "gulp-uglify": "^3.0.0",<% } %>
-    "gulp-www1": "^0.1.6",
+    "gulp-www1": "^0.1.7",
     "gulp-zip": "^4.0.0",<% if(includeSprites) { %>
     "gulp.spritesmith": "^6.5.0",<% } if(includeRem) { %>
     "postcss-px2rem": "^0.3.0",<% } %>
