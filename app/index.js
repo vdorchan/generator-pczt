@@ -69,7 +69,9 @@ module.exports = class extends Generator {
         }
       })
       // dir = dir.replace(/\/[^\/]*$/,'')
-      dir = dir.replace(path.sep + path.basename(dir), '')
+
+      var reg = new RegExp(path.sep + path.basename(dir) + '$')
+      dir = dir.replace(reg, '')
       if (dir.indexOf(path.sep) === -1) {
         dir = null
       }
