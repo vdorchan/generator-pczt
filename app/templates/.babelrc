@@ -1,8 +1,7 @@
 {
-  "presets": [
-    [ "env", 
-      { "targets": { "browsers": ["last 2 versions"] }} 
-    ]
-  ]<% if(includePolyfill) { %> ,
+  "presets": [[ "env", { 
+    "targets": { "browsers": ["last 2 versions"] }, 
+    "modules": false
+  }]]<% if(includePolyfill) { %> ,
   "plugins": ["transform-runtime"] <% } %>
 }
