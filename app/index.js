@@ -70,11 +70,8 @@ module.exports = class extends Generator {
       })
       // dir = dir.replace(/\/[^\/]*$/,'')
 
-      var reg = new RegExp(path.sep + path.basename(dir) + '$')
-      dir = dir.replace(reg, '')
-      if (dir.indexOf(path.sep) === -1) {
-        dir = null
-      }
+      const _dir = path.resolve(dir, '..')
+      dir = _dir === dir ? null : _dir
     }
 
     // 欢迎消息    
