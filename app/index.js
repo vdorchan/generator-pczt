@@ -244,6 +244,7 @@ module.exports = class extends Generator {
       this.templatePath('_gulpfile.js'),
       this.destinationPath('gulpfile.js'),
       {
+        isWap: this.isWap,
         includeSass: this.includeSass,
         includeRem: this.includeRem,
         includeBase64: this.includeBase64,

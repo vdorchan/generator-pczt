@@ -67,14 +67,11 @@ gulp.task(function html() {
       .pipe($.if('*.css', $.cleanCss({ 
         advanced: false,
         keepSpecialComments: '*',
-        rebase: false
+        rebase: false<% if(!isWap) { %>,
+        compatibility: 'ie7'
+        <% } %>
       })))<% if(includeBase64) { %>
       .pipe($.if('*.css', $.base64(conf.base64Opts)))<% } %>
-      .pipe($.if('*.css', $.cleanCss({ 
-        advanced: false,
-        keepSpecialComments: '*',
-        rebase: false
-      })))
       .pipe(gulp.dest(conf.paths.dist))<% if(includeFontSpider) { %>
       .pipe($.if('*.html', $.fontSpider({
         backup: false
