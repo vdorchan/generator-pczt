@@ -1,19 +1,19 @@
 
-const gulp = require('gulp'),
-  browserSync = require('browser-sync'),
-  del = require('del')<% if (includeRem) { %>,
-  px2rem = require('postcss-px2rem')<% } %>,
-  autoprefixer = require('autoprefixer'),
-  conf = require('./config'),
-  prompt  = require('prompt')
+const gulp = require('gulp')
+const browserSync = require('browser-sync')
+const del = require('del')<% if (includeRem) { %>
+const px2rem = require('postcss-px2rem')<% } %>
+const autoprefixer = require('autoprefixer')
+const conf = require('./pc.config')
 
 const $ = require('gulp-load-plugins')()
 
-gulp.task(function styles() {
-  return gulp.src([conf.paths.src + '/sass/*.scss', conf.paths.src + '/css/*.css'])
+gulp.task(function styles () {
+  return gulp.src([conf.paths.src + '/<%= styleDir %>/*.<%= styleExt %>', conf.paths.src + '/css/*.css'])
     .pipe($.sourcemaps.init())
-    .pipe($.plumber())<% if (includeSass) { %>
-    .pipe($.if('*.scss', $.sass()))<% } %>
+<% if(preprocessor !== 'css') { _%>
+    .pipe($.if('*.<%= styleExt %>', $.<%= preprocessor %>().on('error', err => console.error(err)))
+<% } _%>
     .pipe($.postcss([
       <% if (includeRem) { %>px2rem({ remUnit: conf.remUnit }),<% } %>
       autoprefixer
@@ -23,7 +23,7 @@ gulp.task(function styles() {
     .pipe(browserSync.stream())
 })
 
-gulp.task(function scripts() {
+gulp.task(function scripts () {
   return gulp.src(conf.paths.src + '/js/**/*.js')<% if(includeBabel) { %>
     .pipe($.cached('cacheScripts'))
     .pipe($.sourcemaps.init())
@@ -33,29 +33,29 @@ gulp.task(function scripts() {
     .pipe(browserSync.stream())
 })
 
-gulp.task(function images() {
+gulp.task(function images () {
   return gulp.src(conf.paths.src + '/images/**/*.@(jpg|jpeg|gif|svg|jpg|png)')
-    .pipe($.if(
-        '*.png', 
-        $.cache($.pngquant({ quality: conf.pngQuality })), 
-        $.cache($.imagemin({ optimizationLevel: conf.imgQuality, progressive: true, interlaced: true }))))
+    .pipe($.cache($.imagemin(
+      [imageminPngquant({ quality: conf.pngQuality })],
+      { progressive: true, interlaced: true, verbose: true }))
+    )
     .pipe(gulp.dest(conf.paths.dist + '/images'))
 })
 
-gulp.task(function fonts() {
+gulp.task(function fonts () {
   return gulp.src(conf.paths.src + '/fonts/*.@(ttf|oft)')
     .pipe(gulp.dest(conf.paths.dist + '/fonts'))
 })
 
-gulp.task(function media() {
+gulp.task(function media () {
   return gulp.src(conf.paths.src + '/media/**/*')
     .pipe(gulp.dest(conf.paths.dist + '/media'))
 })
 
-gulp.task(function html() {
+gulp.task(function html () {
   return (
     gulp
-      .src([conf.paths.tmp + '/!(maps)/*', conf.paths.src + '/!(sass|css|js)/**/*', conf.paths.src + '/**/*.html'])<% if(includeCompressJS) { %>
+      .src([conf.paths.tmp + '/!(maps)/*', conf.paths.src + '/!(<%= styleDir %>|css|js)/**/*', conf.paths.src + '/**/*.html'])<% if(includeCompressJS) { %>
       .pipe($.if('*.js', $.uglify({
         // mangle: false,//类型：Boolean 默认：true 是否修改变量名
         // compress: true,//类型：Boolean 默认：true 是否完全压缩
@@ -64,7 +64,7 @@ gulp.task(function html() {
           drop_console: true // 去掉 console.* 语句
         }
       })))<% } %>
-      .pipe($.if('*.css', $.cleanCss({ 
+      .pipe($.if('*.css', $.cleanCss({
         advanced: false,
         keepSpecialComments: '*',
         rebase: false<% if(!isWap) { %>,
@@ -79,26 +79,26 @@ gulp.task(function html() {
       .pipe(browserSync.reload({ stream: true }))
   )
 })
-
 <% if(includeSprites) { %>
-gulp.task(function sprites() {
+gulp.task(function sprites () {
   return gulp.src(conf.paths.src + '/images/sprite/**/*.png')
     .pipe($.spritesmith(conf.spriteOpts))
     .pipe($.if('*.png', gulp.dest(conf.paths.src + '/images')))
-    .pipe($.if('*.<% if(includeSass) { %>scss<% } else { %>css<% } %>', gulp.dest(conf.paths.src + '/<% if(includeSass) { %>sass<% } else { %>css<% } %>')))
-})<% } %>
+    .pipe($.if('*.<%= styleExt %>', gulp.dest(conf.paths.src + '/<%= styleDir %>')))
+})
 
-gulp.task(function watch(cb) {
-  gulp.watch(conf.paths.src + '/@(sass|css)/**/*', gulp.series('styles'))
+<% } %>gulp.task(function watch (cb) {
+  gulp.watch(conf.paths.src + '/@(<%= styleDir %>|css)/**/*', gulp.series('styles'))
   gulp.watch(conf.paths.src + '/js/**/*', gulp.series('scripts'))
   gulp.watch([conf.paths.src + '/**/*.html', conf.paths.src + '/images/**/*', conf.paths.src + '/fonts/**/*']).on('change', browserSync.reload)
-  <% if(includeSprites) { %>gulp.watch(conf.paths.src + '/images/sprite/**/*.png', gulp.series('sprites')) <% } %>
-  
+<% if(includeSprites) { _%>
+  gulp.watch(conf.paths.src + '/images/sprite/**/*.png', gulp.series('sprites'))
+<% } %>
   cb()
 })
 
-function _browserSyncInit(baseDir) {
-  return function browserSyncInit() {
+function _browserSyncInit (baseDir) {
+  return function browserSyncInit () {
     browserSync.init({
       injectChanges: true, // 插入更改
       files: ['*.html', '*.css', '*.js'],
@@ -112,17 +112,15 @@ function _browserSyncInit(baseDir) {
   }
 }
 
-gulp.task(function clean() {
+gulp.task(function clean () {
   $.cache.clearAll()
   return del([conf.paths.tmp, conf.paths.dist])
 })
-  
+
 gulp.task('serve', gulp.series(
   'clean'<% if(includeSprites) { %>,
   'sprites'<% } %>,
   gulp.parallel(
-    // <% if(includeSass || includeRem) { %>styles<% } %><% if(includeSass || includeRem && includeBabel) { %>,<% } %>
-    // <% if(includeBabel) { %>scripts<% } %>
     'styles',
     'scripts'
   ),
@@ -133,9 +131,9 @@ gulp.task('serve', gulp.series(
 gulp.task('build', gulp.series(
   'clean',
   gulp.parallel(
-    'styles', 
-    'scripts', 
-    'fonts', 
+    'styles',
+    'scripts',
+    'fonts',
     'images',
     'media'
   ),
@@ -157,7 +155,7 @@ gulp.task('build:zip', gulp.series('build', 'zip'))
 
 gulp.task('default', gulp.series('build'))
 
-gulp.task(function www1(done) {
+gulp.task(function www1 (done) {
   return gulp.src(`${conf.paths.zip}/${conf.zipname}`)
     .pipe($.www1(conf.www1))
 })

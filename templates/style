@@ -1,0 +1,9 @@
+<% if (preprocessor === 'css') { _%>
+@import 'reset.css';
+<% } else { _%>
+@import '../css/reset.css';
+<% } _%>
+<% if (includeSprites) { _%>
+@import '<%= cssSprite %>';
+<% } _%>
+<%- include(styleFile, {includeRem: includeRem, isWap: isWap}) %>

@@ -1,0 +1,15 @@
+<% if(isWap) { _%>
+.g-doc {
+  width: <% if(includeRem) { %>750px<% } else { %>7.5rem<% } %>;
+  margin: 0 auto;
+}
+<% } else { _%>
+body .g-footer .gft-links,
+body .g-footer .gft-links a{ 
+  color:#000;
+}
+body .g-footer .gft-copyRight,
+body .g-footer .gft-copyRight a{ 
+  color:#000;
+} 
+<% } _%>
